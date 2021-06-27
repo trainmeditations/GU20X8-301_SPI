@@ -21,8 +21,8 @@
 // VFD Busy Pin
 #define busyPin 7
 
-void drawDemo() {
-  static byte brightness=0;
+void drawAnim() {
+  //static byte brightness=0;
   const byte img1[2][20]  = {
     { //blue
       0xFC, 0xFC, 0xFC, 0xF8, 0xF0,
@@ -51,18 +51,37 @@ void drawDemo() {
       0x0F, 0x1F, 0x3F, 0x3F, 0x3F
     }
   };
+  for (int i=0; i<10; i++) {
+    drawDisplay(img1);
+    delay(100);
+    drawDisplay(img2);
+    delay(100);
+  }
+}
 
-  drawDisplay(img1);
-  delay(2000);
-  drawDisplay(img2);
-  delay(2000);
+void drawName() {
+  const byte nox[2][20] = {
+    { //blue
+      0x80, 0x80, 0x80, 0x80, 0x80,
+      0x80, 0x80, 0x9C, 0xB6, 0xA2,
+      0xB6, 0x9C, 0x80, 0xA2, 0x94,
+      0x88, 0x94, 0xA2, 0x80, 0xFF
+    },
+    { //red
+      0x80, 0xBE, 0x84, 0x88, 0x90,
+      0xBE, 0x80, 0x9C, 0xB6, 0xA2,
+      0xB6, 0x9C, 0x80, 0x80, 0x80,
+      0x80, 0x80, 0x80, 0x80, 0xFF
+    }
+  };
+  drawDisplay(nox);
+  delay(1000);
 }
 
 void setBrightness(byte brightness) {
   SPI.transfer(0x3F);
   SPI.transfer(brightness);
   toggleLatch();
-
 }
 
 void drawBlue(const byte img[20]){
@@ -116,7 +135,6 @@ void setup() {
 }
 
 void loop() {
-
- drawDemo();
-
+  drawAnim();
+  drawName();
 }
